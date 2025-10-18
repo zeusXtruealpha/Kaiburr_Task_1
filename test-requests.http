@@ -1,0 +1,62 @@
+### Task Management API Test Requests
+### Use these requests in IntelliJ IDEA HTTP Client
+
+### 1. Create a task
+PUT http://localhost:8080/tasks
+Content-Type: application/json
+
+{
+  "id": "123",
+  "name": "Print Hello",
+  "owner": "John Smith",
+  "command": "echo Hello World!"
+}
+
+### 2. Create another task
+PUT http://localhost:8080/tasks
+Content-Type: application/json
+
+{
+  "id": "456",
+  "name": "List Directory",
+  "owner": "Jane Doe",
+  "command": "dir"
+}
+
+### 3. Get all tasks
+GET http://localhost:8080/tasks
+
+### 4. Get task by ID
+GET http://localhost:8080/tasks?id=123
+
+### 5. Search tasks by name
+GET http://localhost:8080/tasks/search?name=Hello
+
+### 6. Execute task
+PUT http://localhost:8080/tasks/123/execute
+
+### 7. Execute another task
+PUT http://localhost:8080/tasks/456/execute
+
+### 8. Get all tasks (should show execution history)
+GET http://localhost:8080/tasks
+
+### 9. Test unsafe command (should fail)
+PUT http://localhost:8080/tasks
+Content-Type: application/json
+
+{
+  "id": "999",
+  "name": "Dangerous Task",
+  "owner": "Hacker",
+  "command": "rm -rf /"
+}
+
+### 10. Delete a task
+DELETE http://localhost:8080/tasks/123
+
+### 11. Verify deletion
+GET http://localhost:8080/tasks?id=123
+
+### 12. Get all remaining tasks
+GET http://localhost:8080/tasks

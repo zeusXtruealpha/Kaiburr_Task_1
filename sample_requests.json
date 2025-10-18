@@ -1,0 +1,83 @@
+{
+  "sample_tasks": [
+    {
+      "id": "123",
+      "name": "Print Hello",
+      "owner": "John Smith",
+      "command": "echo Hello World!"
+    },
+    {
+      "id": "456", 
+      "name": "List Directory",
+      "owner": "Jane Doe",
+      "command": "dir"
+    },
+    {
+      "id": "789",
+      "name": "Show Date",
+      "owner": "Bob Wilson", 
+      "command": "date"
+    },
+    {
+      "id": "101",
+      "name": "System Info",
+      "owner": "Alice Brown",
+      "command": "systeminfo"
+    }
+  ],
+  "curl_examples": {
+    "create_task": "curl -X PUT \"http://localhost:8080/tasks\" -H \"Content-Type: application/json\" -d '{\"id\": \"123\", \"name\": \"Print Hello\", \"owner\": \"John Smith\", \"command\": \"echo Hello World!\"}'",
+    "get_all_tasks": "curl -X GET \"http://localhost:8080/tasks\"",
+    "get_task_by_id": "curl -X GET \"http://localhost:8080/tasks?id=123\"",
+    "search_tasks": "curl -X GET \"http://localhost:8080/tasks/search?name=Hello\"",
+    "execute_task": "curl -X PUT \"http://localhost:8080/tasks/123/execute\"",
+    "delete_task": "curl -X DELETE \"http://localhost:8080/tasks/123\""
+  },
+  "postman_collection": {
+    "info": {
+      "name": "Task Management API",
+      "description": "REST API for managing shell command tasks"
+    },
+    "requests": [
+      {
+        "name": "Create Task",
+        "method": "PUT",
+        "url": "http://localhost:8080/tasks",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id": "123",
+          "name": "Print Hello",
+          "owner": "John Smith",
+          "command": "echo Hello World!"
+        }
+      },
+      {
+        "name": "Get All Tasks",
+        "method": "GET", 
+        "url": "http://localhost:8080/tasks"
+      },
+      {
+        "name": "Get Task by ID",
+        "method": "GET",
+        "url": "http://localhost:8080/tasks?id=123"
+      },
+      {
+        "name": "Search Tasks",
+        "method": "GET",
+        "url": "http://localhost:8080/tasks/search?name=Hello"
+      },
+      {
+        "name": "Execute Task",
+        "method": "PUT",
+        "url": "http://localhost:8080/tasks/123/execute"
+      },
+      {
+        "name": "Delete Task",
+        "method": "DELETE",
+        "url": "http://localhost:8080/tasks/123"
+      }
+    ]
+  }
+}

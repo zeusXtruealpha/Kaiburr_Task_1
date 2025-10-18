@@ -1,0 +1,9 @@
+com\kaiburr\demo\repository\TaskRepository.class
+com\kaiburr\demo\controller\TaskController.class
+com\kaiburr\demo\model\Task.class
+com\kaiburr\demo\service\TaskService.class
+com\kaiburr\demo\DemoApplication.class
+com\kaiburr\demo\model\TaskExecution.class
+com\kaiburr\demo\exception\GlobalExceptionHandler.class
+com\kaiburr\demo\exception\TaskNotFoundException.class
+com\kaiburr\demo\exception\UnsafeCommandException.class
