@@ -1,54 +1,221 @@
 # Task Management REST API
 
-A comprehensive Java Spring Boot application that provides a REST API for managing shell command tasks with MongoDB integration.
+A Spring Boot application that provides a REST API for managing shell command tasks with execution capabilities and MongoDB persistence.
 
-## Features
+## 📋 Table of Contents
 
-- ✅ **Complete REST API** with all required endpoints
-- ✅ **MongoDB Integration** with proper database storage
-- ✅ **Command Security Validation** to prevent dangerous operations
-- ✅ **Task Execution** with output capture and timing
-- ✅ **Comprehensive Error Handling** with custom exceptions
-- ✅ **Full Test Suite** with integration tests
-- ✅ **API Documentation** with examples
+- [Overview](#overview)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Prerequisites](#prerequisites)
+- [Installation & Setup](#installation--setup)
+- [Configuration](#configuration)
+- [API Documentation](#api-documentation)
+- [Usage Examples](#usage-examples)
+- [Security Features](#security-features)
+- [Database Schema](#database-schema)
+- [Testing](#testing)
+- [Project Structure](#project-structure)
+- [Development](#development)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Quick Start
+## 🎯 Overview
 
-### Prerequisites
-- Java 21+
-- Maven 3.6+
-- MongoDB (required for data storage)
+This application provides a comprehensive REST API for managing tasks that represent shell commands. Each task can be executed in a controlled environment with security validations, and execution history is maintained for audit purposes. The system is designed to be safe, scalable, and easy to use.
 
-### Running the Application
+### Key Capabilities
+- **Task Management**: Create, read, update, and delete tasks
+- **Command Execution**: Safely execute shell commands with output capture
+- **Search Functionality**: Find tasks by name with partial matching
+- **Execution History**: Track all task executions with timestamps and outputs
+- **Security Validation**: Prevent execution of dangerous commands
+- **MongoDB Integration**: Persistent storage with Spring Data MongoDB
 
-1. **Clone and navigate to the project:**
+## ✨ Features
+
+- 🔒 **Security-First Design**: Command validation prevents dangerous operations
+- 📊 **Execution Tracking**: Complete audit trail of all task executions
+- 🔍 **Advanced Search**: Find tasks by name with case-insensitive matching
+- 🗄️ **MongoDB Integration**: Robust data persistence
+- 🚀 **RESTful API**: Clean, intuitive REST endpoints
+- ⚡ **High Performance**: Optimized for concurrent operations
+- 🧪 **Comprehensive Testing**: Full test coverage with integration tests
+- 📝 **Detailed Logging**: Debug-level logging for development and troubleshooting
+
+## 🛠️ Technology Stack
+
+- **Backend Framework**: Spring Boot 3.5.6
+- **Java Version**: Java 21
+- **Database**: MongoDB
+- **Build Tool**: Maven
+- **Testing**: JUnit 5, Spring Boot Test
+- **Documentation**: Jackson JSON processing
+- **Development Tools**: Lombok, Spring Boot DevTools
+
+## 📋 Prerequisites
+
+Before running this application, ensure you have the following installed:
+
+- **Java 21** or higher
+- **Maven 3.6+**
+- **MongoDB** (optional - application falls back to in-memory storage if MongoDB is unavailable)
+- **Git** (for cloning the repository)
+
+### System Requirements
+- **RAM**: Minimum 2GB available memory
+- **Disk Space**: At least 500MB free space
+- **Network**: Port 8080 available for the application
+- **OS**: Windows, macOS, or Linux
+
+## 🚀 Installation & Setup
+
+### 1. Clone the Repository
 ```bash
+git clone <repository-url>
 cd demo
 ```
 
-2. **Start the application:**
+### 2. Install Dependencies
+```bash
+mvn clean install
+```
+
+### 3. Start MongoDB (Optional)
+If you want to use MongoDB for persistence:
+```bash
+# Windows
+mongod
+
+# macOS (with Homebrew)
+brew services start mongodb-community
+
+# Linux
+sudo systemctl start mongod
+```
+
+### 4. Run the Application
 ```bash
 mvn spring-boot:run
 ```
 
-3. **Access the API:**
+The application will start on `http://localhost:8080`
+
+### 5. Verify Installation
+```bash
+curl -X GET "http://localhost:8080/tasks"
 ```
-Base URL: http://localhost:8080
+
+You should receive an empty array `[]` if no tasks exist.
+
+## ⚙️ Configuration
+
+### Application Properties
+The main configuration is in `src/main/resources/application.properties`:
+
+```properties
+# Application Configuration
+spring.application.name=demo
+server.port=8080
+
+# MongoDB Configuration
+spring.data.mongodb.host=localhost
+spring.data.mongodb.port=27017
+spring.data.mongodb.database=taskdb
+
+# Logging Configuration
+logging.level.com.kaiburr.demo=DEBUG
+logging.level.org.springframework.data.mongodb=DEBUG
 ```
 
-## API Endpoints
+### Environment Variables
+You can override configuration using environment variables:
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/tasks` | Get all tasks or single task by ID |
-| PUT | `/tasks` | Create or update a task |
-| DELETE | `/tasks/{id}` | Delete a task by ID |
-| GET | `/tasks/search?name={name}` | Search tasks by name |
-| PUT | `/tasks/{id}/execute` | Execute a task |
+```bash
+export SPRING_DATA_MONGODB_HOST=your-mongodb-host
+export SPRING_DATA_MONGODB_PORT=27017
+export SPRING_DATA_MONGODB_DATABASE=your-database-name
+export SERVER_PORT=8080
+```
 
-## Sample Usage
+## 📚 API Documentation
 
-### 1. Create a Task
+### Base URL
+```
+http://localhost:8080
+```
+
+### Data Models
+
+#### Task
+```json
+{
+  "id": "string",
+  "name": "string", 
+  "owner": "string",
+  "command": "string",
+  "taskExecutions": [
+    {
+      "id": "string",
+      "startTime": "2023-04-21T15:51:42.276Z",
+      "endTime": "2023-04-21T15:51:43.276Z", 
+      "output": "string"
+    }
+  ]
+}
+```
+
+#### TaskExecution
+```json
+{
+  "id": "string",
+  "startTime": "2023-04-21T15:51:42.276Z",
+  "endTime": "2023-04-21T15:51:43.276Z",
+  "output": "string"
+}
+```
+
+### API Endpoints
+
+#### 1. Get All Tasks
+**GET** `/tasks`
+
+Returns all tasks in the system.
+
+**Query Parameters:**
+- `id` (optional): If provided, returns a single task with the specified ID
+
+**Response:**
+- `200 OK`: Returns array of tasks or single task
+- `404 Not Found`: Task with specified ID not found
+
+**Example:**
+```bash
+curl -X GET "http://localhost:8080/tasks"
+curl -X GET "http://localhost:8080/tasks?id=123"
+```
+
+#### 2. Create/Update Task
+**PUT** `/tasks`
+
+Creates a new task or updates an existing one.
+
+**Request Body:**
+```json
+{
+  "id": "123",
+  "name": "Print Hello",
+  "owner": "John Smith", 
+  "command": "echo Hello World!"
+}
+```
+
+**Response:**
+- `200 OK`: Task created/updated successfully
+- `400 Bad Request`: Invalid input or unsafe command
+
+**Example:**
 ```bash
 curl -X PUT "http://localhost:8080/tasks" \
   -H "Content-Type: application/json" \
@@ -60,129 +227,360 @@ curl -X PUT "http://localhost:8080/tasks" \
   }'
 ```
 
-### 2. Get All Tasks
-```bash
-curl -X GET "http://localhost:8080/tasks"
-```
+#### 3. Delete Task
+**DELETE** `/tasks/{id}`
 
-### 3. Execute a Task
-```bash
-curl -X PUT "http://localhost:8080/tasks/123/execute"
-```
+Deletes a task by its ID.
 
-### 4. Search Tasks
-```bash
-curl -X GET "http://localhost:8080/tasks/search?name=Hello"
-```
+**Path Parameters:**
+- `id`: Task ID to delete
 
-### 5. Delete a Task
+**Response:**
+- `200 OK`: Task deleted successfully
+- `404 Not Found`: Task not found
+
+**Example:**
 ```bash
 curl -X DELETE "http://localhost:8080/tasks/123"
 ```
 
-## Testing
+#### 4. Search Tasks by Name
+**GET** `/tasks/search?name={name}`
 
-Run the complete test suite:
+Finds tasks whose names contain the specified string (case-insensitive).
+
+**Query Parameters:**
+- `name`: String to search for in task names
+
+**Response:**
+- `200 OK`: Returns array of matching tasks
+- `404 Not Found`: No tasks found
+
+**Example:**
 ```bash
-mvn test
+curl -X GET "http://localhost:8080/tasks/search?name=Hello"
 ```
 
-## Project Structure
+#### 5. Execute Task
+**PUT** `/tasks/{id}/execute`
 
-```
-src/
-├── main/java/com/kaiburr/demo/
-│   ├── controller/
-│   │   └── TaskController.java          # REST API endpoints
-│   ├── model/
-│   │   ├── Task.java                    # Task entity
-│   │   └── TaskExecution.java          # Task execution entity
-│   ├── repository/
-│   │   └── TaskRepository.java          # MongoDB repository
-│   ├── service/
-│   │   └── TaskService.java             # Business logic
-│   ├── exception/
-│   │   ├── TaskNotFoundException.java   # Custom exceptions
-│   │   ├── UnsafeCommandException.java
-│   │   └── GlobalExceptionHandler.java  # Global error handling
-│   └── DemoApplication.java            # Main application class
-└── test/java/com/kaiburr/demo/
-    └── TaskControllerIntegrationTest.java # Integration tests
-```
+Executes a task's shell command and stores the execution result.
 
-## Security Features
+**Path Parameters:**
+- `id`: Task ID to execute
 
-The API includes comprehensive command validation to prevent execution of dangerous operations:
+**Response:**
+- `200 OK`: Returns TaskExecution object with execution details
+- `404 Not Found`: Task not found
+- `400 Bad Request`: Unsafe command detected
 
-- **File System Operations**: `rm`, `del`, `format`, `fdisk`, `mkfs`, `dd`
-- **System Operations**: `shutdown`, `reboot`, `halt`, `poweroff`, `init`
-- **Process Operations**: `killall`, `pkill`, `kill`
-- **Privilege Escalation**: `sudo`, `su`
-- **User Management**: `passwd`, `useradd`, `userdel`
-- **Permission Operations**: `chmod`, `chown`, `chgrp`
-- **Mount Operations**: `mount`, `umount`
-- **Shell Operators**: `>`, `>>`, `<`, `|`, `&`, `;`, `&&`, `||`
-
-## Database Configuration
-
-The application is configured to use MongoDB:
-
-```properties
-spring.data.mongodb.host=localhost
-spring.data.mongodb.port=27017
-spring.data.mongodb.database=taskdb
-```
-
-The application requires MongoDB to be running for proper functionality. If MongoDB is not available, the application will return appropriate error messages.
-
-## Error Handling
-
-The API provides comprehensive error handling with proper HTTP status codes:
-
-- **400 Bad Request**: Invalid input or unsafe commands
-- **404 Not Found**: Task not found
-- **500 Internal Server Error**: Server-side errors
-
-## Documentation
-
-- **API Documentation**: `API_DOCUMENTATION.md`
-- **Sample Requests**: `sample_requests.json`
-- **Test Cases**: `src/test/java/com/kaiburr/demo/TaskControllerIntegrationTest.java`
-
-## Development
-
-### Building the Project
+**Example:**
 ```bash
-mvn clean compile
+curl -X PUT "http://localhost:8080/tasks/123/execute"
 ```
+
+## 💡 Usage Examples
+
+### Complete Workflow Example
+
+1. **Create a task:**
+```bash
+curl -X PUT "http://localhost:8080/tasks" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "id": "task-001",
+    "name": "System Information",
+    "owner": "Admin",
+    "command": "systeminfo"
+  }'
+```
+
+2. **Get all tasks:**
+```bash
+curl -X GET "http://localhost:8080/tasks"
+```
+
+3. **Execute the task:**
+```bash
+curl -X PUT "http://localhost:8080/tasks/task-001/execute"
+```
+
+4. **Search for tasks:**
+```bash
+curl -X GET "http://localhost:8080/tasks/search?name=System"
+```
+
+5. **Get specific task with execution history:**
+```bash
+curl -X GET "http://localhost:8080/tasks?id=task-001"
+```
+
+6. **Delete the task:**
+```bash
+curl -X DELETE "http://localhost:8080/tasks/task-001"
+```
+
+### Sample Tasks
+
+The `sample_requests.json` file contains example tasks you can use for testing:
+
+```json
+{
+  "id": "123",
+  "name": "Print Hello",
+  "owner": "John Smith",
+  "command": "echo Hello World!"
+}
+```
+
+## 🔒 Security Features
+
+### Command Validation
+The API validates commands to prevent execution of dangerous operations. The following are blocked:
+
+**File System Operations:**
+- `rm`, `del`, `format`, `fdisk`, `mkfs`, `dd`
+
+**System Operations:**
+- `shutdown`, `reboot`, `halt`, `poweroff`, `init`
+
+**Process Operations:**
+- `killall`, `pkill`, `kill`
+
+**Privilege Escalation:**
+- `sudo`, `su`
+
+**User Management:**
+- `passwd`, `useradd`, `userdel`
+
+**Permission Operations:**
+- `chmod`, `chown`, `chgrp`
+
+**Mount Operations:**
+- `mount`, `umount`
+
+**Shell Operators:**
+- `>`, `>>`, `<`, `|`, `&`, `;`, `&&`, `||`
+
+### Error Handling
+The application includes comprehensive error handling with custom exceptions:
+
+- `TaskNotFoundException`: When a requested task doesn't exist
+- `UnsafeCommandException`: When a command fails security validation
+- `GlobalExceptionHandler`: Centralized error handling with proper HTTP status codes
+
+## 🗄️ Database Schema
+
+### MongoDB Collections
+
+#### Tasks Collection (`tasks`)
+```javascript
+{
+  "_id": "ObjectId",
+  "id": "string",           // Custom task ID
+  "name": "string",         // Task name
+  "owner": "string",        // Task owner
+  "command": "string",      // Shell command
+  "taskExecutions": [       // Array of execution history
+    {
+      "id": "string",
+      "startTime": "Date",
+      "endTime": "Date",
+      "output": "string"
+    }
+  ]
+}
+```
+
+#### Task Executions Collection (`taskExecutions`)
+```javascript
+{
+  "_id": "ObjectId",
+  "id": "string",           // Execution ID
+  "startTime": "Date",      // Execution start time
+  "endTime": "Date",        // Execution end time
+  "output": "string"        // Command output
+}
+```
+
+## 🧪 Testing
 
 ### Running Tests
 ```bash
+# Run all tests
 mvn test
+
+# Run specific test class
+mvn test -Dtest=TaskControllerIntegrationTest
+
+# Run tests with coverage
+mvn test jacoco:report
 ```
 
-### Packaging
+### Test Structure
+- **Unit Tests**: `DemoApplicationTests.java`
+- **Integration Tests**: `TaskControllerIntegrationTest.java`
+- **Database Tests**: `MongoDBConnectionTest.java`
+
+### Test Coverage
+The test suite covers:
+- All API endpoints
+- Error handling scenarios
+- Database operations
+- Command validation
+- Task execution functionality
+
+## 📁 Project Structure
+
+```
+src/
+├── main/
+│   ├── java/
+│   │   └── com/
+│   │       └── kaiburr/
+│   │           └── demo/
+│   │               ├── controller/
+│   │               │   └── TaskController.java      # REST API endpoints
+│   │               ├── exception/
+│   │               │   ├── GlobalExceptionHandler.java
+│   │               │   ├── TaskNotFoundException.java
+│   │               │   └── UnsafeCommandException.java
+│   │               ├── model/
+│   │               │   ├── Task.java               # Task entity
+│   │               │   └── TaskExecution.java      # Execution entity
+│   │               ├── repository/
+│   │               │   └── TaskRepository.java     # Data access layer
+│   │               ├── service/
+│   │               │   └── TaskService.java        # Business logic
+│   │               └── DemoApplication.java        # Main application class
+│   └── resources/
+│       ├── application.properties                 # Configuration
+│       ├── static/                               # Static resources
+│       └── templates/                            # Template files
+└── test/
+    └── java/
+        └── com/
+            └── kaiburr/
+                └── demo/
+                    ├── DemoApplicationTests.java
+                    ├── MongoDBConnectionTest.java
+                    └── TaskControllerIntegrationTest.java
+```
+
+## 🔧 Development
+
+### Development Setup
+
+1. **IDE Configuration**: Use IntelliJ IDEA or Eclipse with Spring Boot support
+2. **Code Style**: Follow Java conventions and Spring Boot best practices
+3. **Git Hooks**: Consider setting up pre-commit hooks for code quality
+
+### Building the Application
 ```bash
+# Clean and compile
+mvn clean compile
+
+# Package the application
 mvn clean package
+
+# Run with Maven
+mvn spring-boot:run
+
+# Run the JAR file
+java -jar target/demo-0.0.1-SNAPSHOT.jar
 ```
 
-## Requirements Fulfilled
+### Development Tools
+- **Spring Boot DevTools**: Automatic restart and live reload
+- **Lombok**: Reduces boilerplate code
+- **Maven Wrapper**: Consistent build environment
 
-✅ **Task Object Properties**: All required properties implemented  
-✅ **REST API Endpoints**: All 5 endpoints implemented  
-✅ **MongoDB Integration**: Full MongoDB support with fallback  
-✅ **Command Validation**: Comprehensive security validation  
-✅ **Task Execution**: Shell command execution with output capture  
-✅ **Error Handling**: Proper HTTP status codes and error messages  
-✅ **Testing**: Complete test suite with integration tests  
-✅ **Documentation**: Comprehensive API documentation and examples  
+### Code Quality
+- **Lombok**: Automatic getters/setters generation
+- **Spring Boot Validation**: Input validation
+- **Exception Handling**: Centralized error management
+- **Logging**: Comprehensive debug logging
 
-## Next Steps
+## 🐛 Troubleshooting
 
-1. **Start the application**: `mvn spring-boot:run`
-2. **Test the API**: Use the provided curl examples or Postman
-3. **Review the code**: All source code is well-documented
-4. **Run tests**: `mvn test` to verify everything works
-5. **Check documentation**: Review `API_DOCUMENTATION.md` for detailed usage
+### Common Issues
 
-The application is production-ready with comprehensive error handling, security validation, and full test coverage.
+#### 1. MongoDB Connection Issues
+**Problem**: Application fails to connect to MongoDB
+**Solution**: 
+- Ensure MongoDB is running: `mongod`
+- Check connection settings in `application.properties`
+- Verify MongoDB is accessible on the configured port
+
+#### 2. Port Already in Use
+**Problem**: Port 8080 is already in use
+**Solution**:
+```bash
+# Change port in application.properties
+server.port=8081
+
+# Or kill the process using port 8080
+netstat -ano | findstr :8080
+taskkill /PID <PID> /F
+```
+
+#### 3. Java Version Issues
+**Problem**: Unsupported Java version
+**Solution**:
+- Ensure Java 21+ is installed
+- Check JAVA_HOME environment variable
+- Update Maven compiler plugin configuration
+
+#### 4. Command Execution Failures
+**Problem**: Commands fail to execute
+**Solution**:
+- Check if command is in the blocked list
+- Verify command syntax
+- Ensure the command exists on the system
+
+### Debug Mode
+Enable debug logging by adding to `application.properties`:
+```properties
+logging.level.com.kaiburr.demo=DEBUG
+logging.level.org.springframework.data.mongodb=DEBUG
+```
+
+### Health Checks
+Monitor application health:
+```bash
+# Check if application is running
+curl -X GET "http://localhost:8080/tasks"
+
+# Check MongoDB connection
+curl -X GET "http://localhost:8080/actuator/health"
+```
+
+## 🤝 Contributing
+
+1. **Fork the repository**
+2. **Create a feature branch**: `git checkout -b feature/new-feature`
+3. **Commit changes**: `git commit -am 'Add new feature'`
+4. **Push to branch**: `git push origin feature/new-feature`
+5. **Submit a Pull Request**
+
+### Contribution Guidelines
+- Follow existing code style and conventions
+- Add tests for new functionality
+- Update documentation as needed
+- Ensure all tests pass before submitting
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 📞 Support
+
+For support and questions:
+- Create an issue in the repository
+- Check the troubleshooting section
+- Review the API documentation
+- Examine the test cases for usage examples
+
+---
+
+**Happy Coding! 🚀**
