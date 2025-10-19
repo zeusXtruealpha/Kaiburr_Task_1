@@ -189,8 +189,11 @@ PUT "http://localhost:8080/tasks" \
 ![WhatsApp Image 2025-10-19 at 02 07 06_ccf57a21](https://github.com/user-attachments/assets/2e5aac21-4fc6-435c-9837-878b2fca05bd)
 
 
+**MongoDB Image**
+<img width="1920" height="1072" alt="image" src="https://github.com/user-attachments/assets/bd7fa068-d65a-4fc4-ada2-c2314e4a4470" />
 
-## 🔒 Security Features
+
+## Security Features
 
 ### Command Validation
 The API validates commands to prevent execution of dangerous operations. The following are blocked:
@@ -240,18 +243,16 @@ mvn test jacoco:report
 
 ### Test Structure
 - **Unit Tests**: `DemoApplicationTests.java`
+- <img width="1555" height="411" alt="image" src="https://github.com/user-attachments/assets/a09d989b-ab05-4353-ba0a-95f2a2c22a36" />
+
 - **Integration Tests**: `TaskControllerIntegrationTest.java`
+- <img width="1656" height="365" alt="image" src="https://github.com/user-attachments/assets/192e74a9-fb28-494a-b0fb-5bbb75cce17e" />
+
 - **Database Tests**: `MongoDBConnectionTest.java`
+- <img width="1738" height="439" alt="image" src="https://github.com/user-attachments/assets/f2c08e17-202e-4cff-9c40-8f4f2d795dc4" />
 
-### Test Coverage
-The test suite covers:
-- All API endpoints
-- Error handling scenarios
-- Database operations
-- Command validation
-- Task execution functionality
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 src/
@@ -300,7 +301,4 @@ mvn clean package
 
 # Run with Maven
 mvn spring-boot:run
-
-# Run the JAR file
-java -jar target/demo-0.0.1-SNAPSHOT.jar
 ```
