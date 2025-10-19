@@ -2,7 +2,7 @@
 
 A Spring Boot application that provides a REST API.
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 - **Backend Framework**: Spring Boot 3.5.6
 - **Java Version**: Java 21
@@ -12,7 +12,7 @@ A Spring Boot application that provides a REST API.
 - **Development Tools**: Lombok, Spring Boot DevTools
   <img width="1734" height="857" alt="image" src="https://github.com/user-attachments/assets/f0a824b1-01a3-42d8-b6a2-d424ffab4de5" />
 
-## 📋 Prerequisites
+## Prerequisites
 
 Before running this application, ensure you have the following installed:
 
@@ -27,7 +27,7 @@ Before running this application, ensure you have the following installed:
 - **Network**: Port 8080 available for the application
 - **OS**: Windows, macOS, or Linux
 
-## 🚀 Installation & Setup
+## Installation & Setup
 
 ### 1. Clone the Repository
 ```bash
@@ -66,20 +66,13 @@ curl -X GET "http://localhost:8080/tasks"
 
 You should receive an empty array `[]` if no tasks exist.
 
-## ⚙️ Configuration
+## Configuration
 
-### Application Properties
-The main configuration is in `src/main/resources/application.properties`:
+### Ports
 
-```properties
-# Application Configuration
-spring.application.name=demo
+```
 server.port=8080
-
-# MongoDB Configuration
-spring.data.mongodb.host=localhost
 spring.data.mongodb.port=27017
-spring.data.mongodb.database=taskdb
 ```
 
 ## 📚 API Documentation
@@ -121,160 +114,92 @@ http://localhost:8080
 
 ### API Endpoints
 
-#### 1. Get All Tasks
-**GET** `/tasks`
-
-Returns all tasks in the system.
-
-**Query Parameters:**
-- `id` (optional): If provided, returns a single task with the specified ID
-
-**Response:**
-- `200 OK`: Returns array of tasks or single task
-- `404 Not Found`: Task with specified ID not found
-
-**Example:**
-```bash
-curl -X GET "http://localhost:8080/tasks"
-curl -X GET "http://localhost:8080/tasks?id=123"
-```
-
-#### 2. Create/Update Task
-**PUT** `/tasks`
-
-Creates a new task or updates an existing one.
-
-**Request Body:**
-```json
-{
-  "id": "123",
-  "name": "Print Hello",
-  "owner": "John Smith", 
-  "command": "echo Hello World!"
-}
-```
-
-**Response:**
-- `200 OK`: Task created/updated successfully
-- `400 Bad Request`: Invalid input or unsafe command
-
-**Example:**
-```bash
-curl -X PUT "http://localhost:8080/tasks" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "id": "123",
-    "name": "Print Hello",
-    "owner": "John Smith",
-    "command": "echo Hello World!"
-  }'
-```
-
-#### 3. Delete Task
-**DELETE** `/tasks/{id}`
-
-Deletes a task by its ID.
-
-**Path Parameters:**
-- `id`: Task ID to delete
-
-**Response:**
-- `200 OK`: Task deleted successfully
-- `404 Not Found`: Task not found
-
-**Example:**
-```bash
-curl -X DELETE "http://localhost:8080/tasks/123"
-```
-
-#### 4. Search Tasks by Name
-**GET** `/tasks/search?name={name}`
-
-Finds tasks whose names contain the specified string (case-insensitive).
-
-**Query Parameters:**
-- `name`: String to search for in task names
-
-**Response:**
-- `200 OK`: Returns array of matching tasks
-- `404 Not Found`: No tasks found
-
-**Example:**
-```bash
-curl -X GET "http://localhost:8080/tasks/search?name=Hello"
-```
-
-#### 5. Execute Task
-**PUT** `/tasks/{id}/execute`
-
-Executes a task's shell command and stores the execution result.
-
-**Path Parameters:**
-- `id`: Task ID to execute
-
-**Response:**
-- `200 OK`: Returns TaskExecution object with execution details
-- `404 Not Found`: Task not found
-- `400 Bad Request`: Unsafe command detected
-
-**Example:**
-```bash
-curl -X PUT "http://localhost:8080/tasks/123/execute"
-```
-
-## 💡 Usage Examples
-
-### Complete Workflow Example
-
 1. **Create a task:**
 ```bash
-curl -X PUT "http://localhost:8080/tasks" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "id": "task-001",
-    "name": "System Information",
-    "owner": "Admin",
-    "command": "systeminfo"
+PUT "http://localhost:8080/tasks" \
+"Content-Type: application/json" \
+ {
+    "id": "162",
+    "name": "Print Hi",
+    "owner": "Niranjan",
+    "command": "echo Hi"
   }'
 ```
+![WhatsApp Image 2025-10-19 at 01 54 28_65085e32](https://github.com/user-attachments/assets/12945f4f-f942-48c6-8c78-cb5c64e64a12)
 
 2. **Get all tasks:**
 ```bash
-curl -X GET "http://localhost:8080/tasks"
+GET "http://localhost:8080/tasks"
 ```
+<img width="1841" height="841" alt="image" src="https://github.com/user-attachments/assets/68b1b183-6912-4976-848d-faa8a521c29a" />
 
 3. **Execute the task:**
 ```bash
-curl -X PUT "http://localhost:8080/tasks/task-001/execute"
+PUT "http://localhost:8080/tasks/162/execute"
 ```
+![WhatsApp Image 2025-10-19 at 02 04 32_94d21af0](https://github.com/user-attachments/assets/52a5c3b2-076a-4a45-8b59-6970eaf15e7d)
 
-4. **Search for tasks:**
+4. **Search for tasks using id**
 ```bash
-curl -X GET "http://localhost:8080/tasks/search?name=System"
+GET "http://localhost:8080/tasks/tasks?id=123"
 ```
+![WhatsApp Image 2025-10-19 at 01 55 45_886c991b](https://github.com/user-attachments/assets/e00b79ec-489a-4b54-b5f4-c0d6db8c2d03)
 
-5. **Get specific task with execution history:**
+5. **Search for tasks using id which is not there**
 ```bash
-curl -X GET "http://localhost:8080/tasks?id=task-001"
+GET "http://localhost:8080/tasks/tasks?id=999"
 ```
+![WhatsApp Image 2025-10-19 at 01 56 14_777f4d0b](https://github.com/user-attachments/assets/5e84e913-13a1-4210-aa4b-89cc210f7d32)
 
-6. **Delete the task:**
+4. **Search for tasks using name**
 ```bash
-curl -X DELETE "http://localhost:8080/tasks/task-001"
+GET "http://localhost:8080/tasks/tasks?name=Hello"
 ```
+![WhatsApp Image 2025-10-19 at 01 58 11_ff1e7f95](https://github.com/user-attachments/assets/2a5ce115-dfe5-49a8-9edc-f98bb4d670b3)
 
-### Sample Tasks
-
-The `sample_requests.json` file contains example tasks you can use for testing:
-
-```json
-{
-  "id": "123",
-  "name": "Print Hello",
-  "owner": "John Smith",
-  "command": "echo Hello World!"
-}
+5. **Search for tasks which are not there using name**
+```bash
+GET "http://localhost:8080/tasks/tasks?name=Hello"
 ```
+![WhatsApp Image 2025-10-19 at 02 12 38_4b5114a1](https://github.com/user-attachments/assets/8ab08056-3b25-42d9-8936-5d695fdc63fb)
+
+6. **Execute Task:**
+```bash
+PUT "http://localhost:8080/tasks/162/execute"
+```
+![WhatsApp Image 2025-10-19 at 02 04 32_5f2d756a](https://github.com/user-attachments/assets/0883de15-5906-4d47-9cbd-ff26e1f7c4fa)
+
+7. **Try Executing Task which is not there:**
+```bash
+PUT "http://localhost:8080/tasks/162/execute"
+```
+![WhatsApp Image 2025-10-19 at 02 16 44_822a83d2](https://github.com/user-attachments/assets/3075674d-6fbc-4c73-877a-cba034da504a)
+
+8. **Get specific task with execution history:**
+```bash
+GET "http://localhost:8080/tasks?id=123"
+```
+<img width="1801" height="845" alt="image" src="https://github.com/user-attachments/assets/877313f3-0349-4f8d-9b12-3febfd13354b" />
+
+9. **Delete the task:**
+```bash
+DELETE "http://localhost:8080/tasks/task-001"
+```
+![WhatsApp Image 2025-10-19 at 02 11 08_bd4f5a86](https://github.com/user-attachments/assets/b4c8c40a-ed57-41bf-8702-db4b59b4bff4)
+
+10. **Create a task with unsafe/malicious code:**
+```bash
+PUT "http://localhost:8080/tasks" \
+"Content-Type: application/json" \
+ {
+    "id": "789",
+    "name": "DeleteAll",
+    "owner": "Gowthamee",
+    "command": "rm -rf /"
+  }'
+```
+![WhatsApp Image 2025-10-19 at 02 07 06_ccf57a21](https://github.com/user-attachments/assets/2e5aac21-4fc6-435c-9837-878b2fca05bd)
+
 
 ## 🔒 Security Features
 
@@ -312,41 +237,9 @@ The application includes comprehensive error handling with custom exceptions:
 - `UnsafeCommandException`: When a command fails security validation
 - `GlobalExceptionHandler`: Centralized error handling with proper HTTP status codes
 
-## 🗄️ Database Schema
 
 ### MongoDB Collections
 
-#### Tasks Collection (`tasks`)
-```javascript
-{
-  "_id": "ObjectId",
-  "id": "string",           // Custom task ID
-  "name": "string",         // Task name
-  "owner": "string",        // Task owner
-  "command": "string",      // Shell command
-  "taskExecutions": [       // Array of execution history
-    {
-      "id": "string",
-      "startTime": "Date",
-      "endTime": "Date",
-      "output": "string"
-    }
-  ]
-}
-```
-
-#### Task Executions Collection (`taskExecutions`)
-```javascript
-{
-  "_id": "ObjectId",
-  "id": "string",           // Execution ID
-  "startTime": "Date",      // Execution start time
-  "endTime": "Date",        // Execution end time
-  "output": "string"        // Command output
-}
-```
-
-## 🧪 Testing
 
 ### Running Tests
 ```bash
