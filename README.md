@@ -42,14 +42,7 @@ mvn clean install
 
 ### 3. Start MongoDB
 ```bash
-# Windows
-mongod
-
-# macOS (with Homebrew)
-brew services start mongodb-community
-
-# Linux
-sudo systemctl start mongod
+mongod --port 27017 --dbpath "C:\Program Files\MongoDB\Server\8.2\data"
 ```
 
 ### 4. Run the Application
@@ -66,10 +59,7 @@ curl -X GET "http://localhost:8080/tasks"
 
 You should receive an empty array `[]` if no tasks exist.
 
-## Configuration
-
 ### Ports
-
 ```
 server.port=8080
 spring.data.mongodb.port=27017
@@ -81,8 +71,6 @@ spring.data.mongodb.port=27017
 ```
 http://localhost:8080
 ```
-
-### Data Models
 
 #### Task
 ```json
@@ -102,18 +90,7 @@ http://localhost:8080
 }
 ```
 
-#### TaskExecution
-```json
-{
-  "id": "string",
-  "startTime": "2023-04-21T15:51:42.276Z",
-  "endTime": "2023-04-21T15:51:43.276Z",
-  "output": "string"
-}
-```
-
 ### API Endpoints
-
 1. **Create a task:**
 ```bash
 PUT "http://localhost:8080/tasks" \
@@ -159,7 +136,7 @@ GET "http://localhost:8080/tasks/tasks?name=Hello"
 
 5. **Search for tasks which are not there using name**
 ```bash
-GET "http://localhost:8080/tasks/tasks?name=Hello"
+GET "http://localhost:8080/tasks/tasks?name=Niran"
 ```
 ![WhatsApp Image 2025-10-19 at 02 12 38_4b5114a1](https://github.com/user-attachments/assets/8ab08056-3b25-42d9-8936-5d695fdc63fb)
 
@@ -171,7 +148,7 @@ PUT "http://localhost:8080/tasks/162/execute"
 
 7. **Try Executing Task which is not there:**
 ```bash
-PUT "http://localhost:8080/tasks/162/execute"
+PUT "http://localhost:8080/tasks/113/execute"
 ```
 ![WhatsApp Image 2025-10-19 at 02 16 44_822a83d2](https://github.com/user-attachments/assets/3075674d-6fbc-4c73-877a-cba034da504a)
 
@@ -183,7 +160,7 @@ GET "http://localhost:8080/tasks?id=123"
 
 9. **Delete the task:**
 ```bash
-DELETE "http://localhost:8080/tasks/task-001"
+DELETE "http://localhost:8080/tasks/456"
 ```
 ![WhatsApp Image 2025-10-19 at 02 11 08_bd4f5a86](https://github.com/user-attachments/assets/b4c8c40a-ed57-41bf-8702-db4b59b4bff4)
 
@@ -236,10 +213,6 @@ The application includes comprehensive error handling with custom exceptions:
 - `TaskNotFoundException`: When a requested task doesn't exist
 - `UnsafeCommandException`: When a command fails security validation
 - `GlobalExceptionHandler`: Centralized error handling with proper HTTP status codes
-
-
-### MongoDB Collections
-
 
 ### Running Tests
 ```bash
@@ -303,13 +276,7 @@ src/
                     └── TaskControllerIntegrationTest.java
 ```
 
-## 🔧 Development
-
-### Development Setup
-
-1. **IDE Configuration**: Use IntelliJ IDEA or Eclipse with Spring Boot support
-2. **Code Style**: Follow Java conventions and Spring Boot best practices
-3. **Git Hooks**: Consider setting up pre-commit hooks for code quality
+**IDE Configuration**: Used IntelliJ IDEA ULTIMATE 
 
 ### Building the Application
 ```bash
@@ -325,98 +292,3 @@ mvn spring-boot:run
 # Run the JAR file
 java -jar target/demo-0.0.1-SNAPSHOT.jar
 ```
-
-### Development Tools
-- **Spring Boot DevTools**: Automatic restart and live reload
-- **Lombok**: Reduces boilerplate code
-- **Maven Wrapper**: Consistent build environment
-
-### Code Quality
-- **Lombok**: Automatic getters/setters generation
-- **Spring Boot Validation**: Input validation
-- **Exception Handling**: Centralized error management
-- **Logging**: Comprehensive debug logging
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-#### 1. MongoDB Connection Issues
-**Problem**: Application fails to connect to MongoDB
-**Solution**: 
-- Ensure MongoDB is running: `mongod`
-- Check connection settings in `application.properties`
-- Verify MongoDB is accessible on the configured port
-
-#### 2. Port Already in Use
-**Problem**: Port 8080 is already in use
-**Solution**:
-```bash
-# Change port in application.properties
-server.port=8081
-
-# Or kill the process using port 8080
-netstat -ano | findstr :8080
-taskkill /PID <PID> /F
-```
-
-#### 3. Java Version Issues
-**Problem**: Unsupported Java version
-**Solution**:
-- Ensure Java 21+ is installed
-- Check JAVA_HOME environment variable
-- Update Maven compiler plugin configuration
-
-#### 4. Command Execution Failures
-**Problem**: Commands fail to execute
-**Solution**:
-- Check if command is in the blocked list
-- Verify command syntax
-- Ensure the command exists on the system
-
-### Debug Mode
-Enable debug logging by adding to `application.properties`:
-```properties
-logging.level.com.kaiburr.demo=DEBUG
-logging.level.org.springframework.data.mongodb=DEBUG
-```
-
-### Health Checks
-Monitor application health:
-```bash
-# Check if application is running
-curl -X GET "http://localhost:8080/tasks"
-
-# Check MongoDB connection
-curl -X GET "http://localhost:8080/actuator/health"
-```
-
-## 🤝 Contributing
-
-1. **Fork the repository**
-2. **Create a feature branch**: `git checkout -b feature/new-feature`
-3. **Commit changes**: `git commit -am 'Add new feature'`
-4. **Push to branch**: `git push origin feature/new-feature`
-5. **Submit a Pull Request**
-
-### Contribution Guidelines
-- Follow existing code style and conventions
-- Add tests for new functionality
-- Update documentation as needed
-- Ensure all tests pass before submitting
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 📞 Support
-
-For support and questions:
-- Create an issue in the repository
-- Check the troubleshooting section
-- Review the API documentation
-- Examine the test cases for usage examples
-
----
-
-**Happy Coding! 🚀**
