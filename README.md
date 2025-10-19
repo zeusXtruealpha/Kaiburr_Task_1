@@ -133,49 +133,49 @@ GET "http://localhost:8080/tasks/tasks?id=999"
 ![WhatsApp Image 2025-10-19 at 01 56 14_777f4d0b](https://github.com/user-attachments/assets/5e84e913-13a1-4210-aa4b-89cc210f7d32)
 
 
-4. **Search for tasks using name**
+6. **Search for tasks using name**
 ```bash
 GET "http://localhost:8080/tasks/tasks?name=Hello"
 ```
 ![WhatsApp Image 2025-10-19 at 01 58 11_ff1e7f95](https://github.com/user-attachments/assets/2a5ce115-dfe5-49a8-9edc-f98bb4d670b3)
 
 
-5. **Search for tasks which are not there using name**
+7. **Search for tasks which are not there using name**
 ```bash
 GET "http://localhost:8080/tasks/tasks?name=Niran"
 ```
 ![WhatsApp Image 2025-10-19 at 02 12 38_4b5114a1](https://github.com/user-attachments/assets/8ab08056-3b25-42d9-8936-5d695fdc63fb)
 
 
-6. **Execute Task:**
+8. **Execute Task:**
 ```bash
 PUT "http://localhost:8080/tasks/162/execute"
 ```
 ![WhatsApp Image 2025-10-19 at 02 04 32_5f2d756a](https://github.com/user-attachments/assets/0883de15-5906-4d47-9cbd-ff26e1f7c4fa)
 
 
-7. **Try Executing Task which is not there:**
+9. **Try Executing Task which is not there:**
 ```bash
 PUT "http://localhost:8080/tasks/113/execute"
 ```
 ![WhatsApp Image 2025-10-19 at 02 16 44_822a83d2](https://github.com/user-attachments/assets/3075674d-6fbc-4c73-877a-cba034da504a)
 
 
-8. **Get specific task with execution history:**
+10. **Get specific task with execution history:**
 ```bash
 GET "http://localhost:8080/tasks?id=123"
 ```
 <img width="1801" height="845" alt="image" src="https://github.com/user-attachments/assets/877313f3-0349-4f8d-9b12-3febfd13354b" />
 
 
-9. **Delete the task:**
+11. **Delete the task:**
 ```bash
 DELETE "http://localhost:8080/tasks/456"
 ```
 ![WhatsApp Image 2025-10-19 at 02 11 08_bd4f5a86](https://github.com/user-attachments/assets/b4c8c40a-ed57-41bf-8702-db4b59b4bff4)
 
 
-10. **Create a task with unsafe/malicious code:**
+12. **Create a task with unsafe/malicious code:**
 ```bash
 PUT "http://localhost:8080/tasks" \
 "Content-Type: application/json" \
