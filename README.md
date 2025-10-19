@@ -2,22 +2,6 @@
 
 A Spring Boot application that provides a REST API.
 
-## 📋 Table of Contents
-- [Technology Stack](#technology-stack)
-- [Prerequisites](#prerequisites)
-- [Installation & Setup](#installation--setup)
-- [Configuration](#configuration)
-- [API Documentation](#api-documentation)
-- [Usage Examples](#usage-examples)
-- [Security Features](#security-features)
-- [Database Schema](#database-schema)
-- [Testing](#testing)
-- [Project Structure](#project-structure)
-- [Development](#development)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
-- [License](#license)
-
 ## 🛠️ Technology Stack
 
 - **Backend Framework**: Spring Boot 3.5.6
