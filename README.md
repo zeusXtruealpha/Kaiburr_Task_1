@@ -10,6 +10,7 @@ A Spring Boot application that provides a REST API.
 - **Build Tool**: Maven
 - **Testing**: Spring Boot Test
 - **Development Tools**: Lombok, Spring Boot DevTools
+  <img width="1734" height="857" alt="image" src="https://github.com/user-attachments/assets/f0a824b1-01a3-42d8-b6a2-d424ffab4de5" />
 
 ## 📋 Prerequisites
 
