@@ -104,11 +104,13 @@ PUT "http://localhost:8080/tasks" \
 ```
 ![WhatsApp Image 2025-10-19 at 01 54 28_65085e32](https://github.com/user-attachments/assets/12945f4f-f942-48c6-8c78-cb5c64e64a12)
 
+
 2. **Get all tasks:**
 ```bash
 GET "http://localhost:8080/tasks"
 ```
 <img width="1841" height="841" alt="image" src="https://github.com/user-attachments/assets/68b1b183-6912-4976-848d-faa8a521c29a" />
+
 
 3. **Execute the task:**
 ```bash
@@ -116,11 +118,13 @@ PUT "http://localhost:8080/tasks/162/execute"
 ```
 ![WhatsApp Image 2025-10-19 at 02 04 32_94d21af0](https://github.com/user-attachments/assets/52a5c3b2-076a-4a45-8b59-6970eaf15e7d)
 
+
 4. **Search for tasks using id**
 ```bash
 GET "http://localhost:8080/tasks/tasks?id=123"
 ```
 ![WhatsApp Image 2025-10-19 at 01 55 45_886c991b](https://github.com/user-attachments/assets/e00b79ec-489a-4b54-b5f4-c0d6db8c2d03)
+
 
 5. **Search for tasks using id which is not there**
 ```bash
@@ -128,11 +132,13 @@ GET "http://localhost:8080/tasks/tasks?id=999"
 ```
 ![WhatsApp Image 2025-10-19 at 01 56 14_777f4d0b](https://github.com/user-attachments/assets/5e84e913-13a1-4210-aa4b-89cc210f7d32)
 
+
 4. **Search for tasks using name**
 ```bash
 GET "http://localhost:8080/tasks/tasks?name=Hello"
 ```
 ![WhatsApp Image 2025-10-19 at 01 58 11_ff1e7f95](https://github.com/user-attachments/assets/2a5ce115-dfe5-49a8-9edc-f98bb4d670b3)
+
 
 5. **Search for tasks which are not there using name**
 ```bash
@@ -140,11 +146,13 @@ GET "http://localhost:8080/tasks/tasks?name=Niran"
 ```
 ![WhatsApp Image 2025-10-19 at 02 12 38_4b5114a1](https://github.com/user-attachments/assets/8ab08056-3b25-42d9-8936-5d695fdc63fb)
 
+
 6. **Execute Task:**
 ```bash
 PUT "http://localhost:8080/tasks/162/execute"
 ```
 ![WhatsApp Image 2025-10-19 at 02 04 32_5f2d756a](https://github.com/user-attachments/assets/0883de15-5906-4d47-9cbd-ff26e1f7c4fa)
+
 
 7. **Try Executing Task which is not there:**
 ```bash
@@ -152,17 +160,20 @@ PUT "http://localhost:8080/tasks/113/execute"
 ```
 ![WhatsApp Image 2025-10-19 at 02 16 44_822a83d2](https://github.com/user-attachments/assets/3075674d-6fbc-4c73-877a-cba034da504a)
 
+
 8. **Get specific task with execution history:**
 ```bash
 GET "http://localhost:8080/tasks?id=123"
 ```
 <img width="1801" height="845" alt="image" src="https://github.com/user-attachments/assets/877313f3-0349-4f8d-9b12-3febfd13354b" />
 
+
 9. **Delete the task:**
 ```bash
 DELETE "http://localhost:8080/tasks/456"
 ```
 ![WhatsApp Image 2025-10-19 at 02 11 08_bd4f5a86](https://github.com/user-attachments/assets/b4c8c40a-ed57-41bf-8702-db4b59b4bff4)
+
 
 10. **Create a task with unsafe/malicious code:**
 ```bash
@@ -176,6 +187,7 @@ PUT "http://localhost:8080/tasks" \
   }'
 ```
 ![WhatsApp Image 2025-10-19 at 02 07 06_ccf57a21](https://github.com/user-attachments/assets/2e5aac21-4fc6-435c-9837-878b2fca05bd)
+
 
 
 ## 🔒 Security Features
@@ -249,23 +261,23 @@ src/
 │   │       └── kaiburr/
 │   │           └── demo/
 │   │               ├── controller/
-│   │               │   └── TaskController.java      # REST API endpoints
+│   │               │   └── TaskController.java    
 │   │               ├── exception/
 │   │               │   ├── GlobalExceptionHandler.java
 │   │               │   ├── TaskNotFoundException.java
 │   │               │   └── UnsafeCommandException.java
 │   │               ├── model/
-│   │               │   ├── Task.java               # Task entity
-│   │               │   └── TaskExecution.java      # Execution entity
+│   │               │   ├── Task.java               
+│   │               │   └── TaskExecution.java      
 │   │               ├── repository/
-│   │               │   └── TaskRepository.java     # Data access layer
+│   │               │   └── TaskRepository.java     
 │   │               ├── service/
-│   │               │   └── TaskService.java        # Business logic
-│   │               └── DemoApplication.java        # Main application class
+│   │               │   └── TaskService.java        
+│   │               └── DemoApplication.java        
 │   └── resources/
-│       ├── application.properties                 # Configuration
-│       ├── static/                               # Static resources
-│       └── templates/                            # Template files
+│       ├── application.properties                 
+│       ├── static/                              
+│       └── templates/                         
 └── test/
     └── java/
         └── com/
