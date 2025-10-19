@@ -1,11 +1,8 @@
 # Task Management REST API
 
-A Spring Boot application that provides a REST API for managing shell command tasks with execution capabilities and MongoDB persistence.
+A Spring Boot application that provides a REST API.
 
 ## 📋 Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
 - [Technology Stack](#technology-stack)
 - [Prerequisites](#prerequisites)
 - [Installation & Setup](#installation--setup)
@@ -21,37 +18,13 @@ A Spring Boot application that provides a REST API for managing shell command ta
 - [Contributing](#contributing)
 - [License](#license)
 
-## 🎯 Overview
-
-This application provides a comprehensive REST API for managing tasks that represent shell commands. Each task can be executed in a controlled environment with security validations, and execution history is maintained for audit purposes. The system is designed to be safe, scalable, and easy to use.
-
-### Key Capabilities
-- **Task Management**: Create, read, update, and delete tasks
-- **Command Execution**: Safely execute shell commands with output capture
-- **Search Functionality**: Find tasks by name with partial matching
-- **Execution History**: Track all task executions with timestamps and outputs
-- **Security Validation**: Prevent execution of dangerous commands
-- **MongoDB Integration**: Persistent storage with Spring Data MongoDB
-
-## ✨ Features
-
-- 🔒 **Security-First Design**: Command validation prevents dangerous operations
-- 📊 **Execution Tracking**: Complete audit trail of all task executions
-- 🔍 **Advanced Search**: Find tasks by name with case-insensitive matching
-- 🗄️ **MongoDB Integration**: Robust data persistence
-- 🚀 **RESTful API**: Clean, intuitive REST endpoints
-- ⚡ **High Performance**: Optimized for concurrent operations
-- 🧪 **Comprehensive Testing**: Full test coverage with integration tests
-- 📝 **Detailed Logging**: Debug-level logging for development and troubleshooting
-
 ## 🛠️ Technology Stack
 
 - **Backend Framework**: Spring Boot 3.5.6
 - **Java Version**: Java 21
 - **Database**: MongoDB
 - **Build Tool**: Maven
-- **Testing**: JUnit 5, Spring Boot Test
-- **Documentation**: Jackson JSON processing
+- **Testing**: Spring Boot Test
 - **Development Tools**: Lombok, Spring Boot DevTools
 
 ## 📋 Prerequisites
@@ -60,7 +33,7 @@ Before running this application, ensure you have the following installed:
 
 - **Java 21** or higher
 - **Maven 3.6+**
-- **MongoDB** (optional - application falls back to in-memory storage if MongoDB is unavailable)
+- **MongoDB** 
 - **Git** (for cloning the repository)
 
 ### System Requirements
@@ -73,7 +46,7 @@ Before running this application, ensure you have the following installed:
 
 ### 1. Clone the Repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/zeusXtruealpha/Kaiburr_Task_1
 cd demo
 ```
 
@@ -82,8 +55,7 @@ cd demo
 mvn clean install
 ```
 
-### 3. Start MongoDB (Optional)
-If you want to use MongoDB for persistence:
+### 3. Start MongoDB
 ```bash
 # Windows
 mongod
@@ -123,20 +95,6 @@ server.port=8080
 spring.data.mongodb.host=localhost
 spring.data.mongodb.port=27017
 spring.data.mongodb.database=taskdb
-
-# Logging Configuration
-logging.level.com.kaiburr.demo=DEBUG
-logging.level.org.springframework.data.mongodb=DEBUG
-```
-
-### Environment Variables
-You can override configuration using environment variables:
-
-```bash
-export SPRING_DATA_MONGODB_HOST=your-mongodb-host
-export SPRING_DATA_MONGODB_PORT=27017
-export SPRING_DATA_MONGODB_DATABASE=your-database-name
-export SERVER_PORT=8080
 ```
 
 ## 📚 API Documentation
