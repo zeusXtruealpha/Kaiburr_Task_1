@@ -302,3 +302,7 @@ mvn clean package
 # Run with Maven
 mvn spring-boot:run
 ```
+t r i g g e r  
+ % D A T E %  
+ % T I M E %  
+ 
