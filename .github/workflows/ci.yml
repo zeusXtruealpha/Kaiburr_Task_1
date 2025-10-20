@@ -9,6 +9,16 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo:6
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongo --quiet --eval 'db.runCommand({ ping: 1 })' || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
     
     steps:
     - name: Checkout code
@@ -27,6 +37,12 @@ jobs:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
+    - name: Wait for MongoDB
+      run: |
+        for i in {1..60}; do
+          if (echo > /dev/tcp/127.0.0.1/27017) >/dev/null 2>&1; then
+            echo "MongoDB is up"; exit 0; fi; sleep 1; done
+        echo "MongoDB did not start in time"; exit 1
         
     - name: Run tests
       run: mvn -B clean test
