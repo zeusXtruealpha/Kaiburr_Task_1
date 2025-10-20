@@ -15,10 +15,10 @@ jobs:
         ports:
           - 27017:27017
         options: >-
-          --health-cmd "mongo --quiet --eval 'db.runCommand({ ping: 1 })' || exit 1"
-          --health-interval 10s
+          --health-cmd "mongosh --quiet --eval 'db.runCommand({ ping: 1 })' || exit 1"
+          --health-interval 5s
           --health-timeout 5s
-          --health-retries 10
+          --health-retries 30
     
     steps:
     - name: Checkout code
